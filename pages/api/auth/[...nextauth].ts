@@ -14,27 +14,35 @@ export default NextAuth({
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
+      async authorize(credentials, req) {
         if (!credentials) {
-          throw new Error("Credentials are required");
-        }
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
-        });
-
-        if (user && bcrypt.compareSync(credentials.password, user.password)) {
-          return user;
-        } else {
           return null;
         }
-      }
-    })
+
+        const { email, password } = credentials;
+
+        // Replace this with your actual user fetching logic
+        const user = await prisma.user.findUnique({
+          where: { email },
+        });
+
+        if (user && bcrypt.compareSync(password, user.password)) {
+          return {
+            id: user.id.toString(), // Ensure id is a string
+            name: user.name,
+            email: user.email,
+          };
+        }
+
+        return null;
+      },
+    }),
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt"
+    strategy: "jwt",
+    maxAge: 30 * 60, // 30 minutos
   },
   callbacks: {
     async session({ session, token }) {
