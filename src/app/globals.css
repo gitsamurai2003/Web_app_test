@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+/* Apply the font globally */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

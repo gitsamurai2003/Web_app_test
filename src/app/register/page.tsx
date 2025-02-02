@@ -1,6 +1,8 @@
+"use client";
+
 import { useState } from "react";
 import Link from "next/link";
-import styles from "../styles/Register.module.css"; // Importar el archivo de estilos
+import styles from "./Register.module.css"; // Importar el archivo de estilos
 
 export default function Register() {
   const [email, setEmail] = useState("");
@@ -25,7 +27,7 @@ export default function Register() {
 
       if (res.ok) {
         alert("User registered successfully");
-        window.location.href = "/login";
+        window.location.href = "/";
       } else {
         const data = await res.json();
         alert(data.message);
@@ -70,7 +72,7 @@ export default function Register() {
         <button type="submit" className={styles.button}>&rarr;</button>
         <div className={styles.login}>
           <span>Already have an account?</span>
-          <Link href="/login">
+          <Link href="/">
             Login
           </Link>
         </div>
